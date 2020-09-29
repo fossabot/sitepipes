@@ -7,14 +7,14 @@ with open('LICENSE', 'r') as f:
     license = f.read()
 
 setup(
-    name='...',
-    version='...',
-    description='...',
+    name='sitepipes',
+    version='0.0.1',
+    description='A framework for federated learning applications',
     long_description=long_description,
     license=license,
-    author='...',
-    author_email='...',
-    url='...',
-    packages=['...'],
+    author='Eric Yates',
+    author_email='eric@medleyagency.com',
+    url='https://github.com/MedleyLabs/sitepipes',
+    packages=['sitepipes'],
 )
 
