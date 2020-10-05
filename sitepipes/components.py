@@ -1,23 +1,34 @@
-from exceptions import ProtectionError
+from sitepipes.exceptions import ProtectedDatasetError
+from sitepipes.logger import logger
 
 class Assembly:
     """ A collection of Component objects """
 
 
-class ComponentType(type):
+class MetaComponent(type):
     """ A type for pipeline components """
 
-    def __new__(mcs, name, bases, dict_):
+    def __new__(mcs, name, bases, class_dict):
+        cls = super().__new__(mcs, name, bases, class_dict)
+        cls = logger(cls)
+        setattr(cls, 'pump_data', mcs.pump_data)
+        return cls
 
-        instance = super().__new__(mcs, name, bases, dict_)
+    def __getattr__(self, item):
+        err_msg = f'{type(self).__name__} has no attribute "{item}"...'
+        print(err_msg)
+        raise AttributeError(err_msg)
 
-        return instance
+    def __setattr__(self, key, value):
 
-    def pump_data(cls):
+
+class Component(metaclass=MetaComponent):
+
+    def pump_data(self):
         pass
 
 
-class Intake(metaclass=ComponentType):
+class Intake(Component):
     """
     An intake component for loading data. Can only connect to a ProtectedTank
     instance.
@@ -37,7 +48,7 @@ class DatabaseConnector(Connector):
     """ Connects to a Database """
 
 
-class Pipe(metaclass=ComponentType):
+class Pipe(Component):
     """
     A pipe component for moving data from Point A to Point B
 
@@ -53,7 +64,7 @@ class Pipe(metaclass=ComponentType):
         """ Checks the data integrity of a data flow """
 
 
-class Fitting(metaclass=ComponentType):
+class Fitting(Component):
     """
     A fitting component for connecting two or more pipes. Will randomly split
     data flowing out into "pipes_out" pieces
@@ -67,7 +78,7 @@ class Fitting(metaclass=ComponentType):
         self.pipes_out = pipes_out
 
 
-class Valve(metaclass=ComponentType):
+class Valve(Component):
     """ A valve component for controlling the flow of data """
 
 
@@ -75,11 +86,11 @@ class Queue(Valve):
     """ A queue component for queueing a data flow"""
 
 
-class Filter(metaclass=ComponentType):
+class Filter(Component):
     """ A filter component for removing data from the pipeline """
 
 
-class Tank(metaclass=ComponentType):
+class Tank(Component):
     """ A tank component for storing data at a location """
 
     def __init__(self):
@@ -97,7 +108,7 @@ class Tank(metaclass=ComponentType):
         """
 
         if self.dataset_id in self.protected_ids:
-            raise ProtectionError
+            raise ProtectedDatasetError
 
 
 class ProtectedTank(Tank):
@@ -123,22 +134,22 @@ class ProtectedTank(Tank):
         """
 
         if self.dataset_id in self.protected_ids:
-            raise ProtectionError
+            raise ProtectedDatasetError
 
 
-class Screen(metaclass=ComponentType):
+class Screen(Component):
     """ A screen component for viewing the state of a component """
 
 
-class Hose(metaclass=ComponentType):
+class Hose(Component):
     """ A hose component for portable and flexible data moving """
 
 
-class Processor(metaclass=ComponentType):
+class Processor(Component):
     """ A processor component for running computations on data """
 
 
-class Controller(metaclass=ComponentType):
+class Controller(Component):
     """ A controller component for controlling a collection of components """
 
 
@@ -150,7 +161,7 @@ class MainController(Controller):
         self.hosts.append(host)
 
 
-class Host:
+class Host(Component):
     """
     A machine with zero or more datasets and/or models
 

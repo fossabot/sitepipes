@@ -24,17 +24,21 @@ def func_logger(obj):
     return inner
 
 
-def logger(cls, decorate_static=True, decorate_class=True,
-           decorate_property=True, decorate_routine=True):
+def logger(cls, autolog=config['autolog'], decorate_static=True,
+           decorate_class=True, decorate_property=True, decorate_routine=True):
     """
     A class decorator for automatic logging of various methods
 
     :param cls: object - The class definition to decorate
+    :param autolog: bool - Whether to automatically log method calls
     :param decorate_static: bool - Whether to decorate static methods
     :param decorate_class: bool - Whether to decorate class methods
     :param decorate_property: bool - Whether to decorate properties
     :param decorate_routine: bool - Whether to decorate all other routines
     """
+
+    if not autolog:
+        return cls
 
     logging.info(f'Creating loggers for methods of {type(cls).__name__}...')
 
@@ -59,6 +63,8 @@ def logger(cls, decorate_static=True, decorate_class=True,
 
         elif decorate_routine and inspect.isroutine(obj):
             setattr(cls, name, func_logger(obj))
+
+    return cls
 
 
 class Logger:
