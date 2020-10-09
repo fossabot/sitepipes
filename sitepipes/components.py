@@ -136,6 +136,21 @@ class ProtectedTank(Tank):
         if self.dataset_id in self.protected_ids:
             raise ProtectedDatasetError
 
+class DataTank(Tank):
+    pass
+
+
+class ProtectedDataTank(DataTank, ProtectedTank):
+    pass
+
+
+class ModelTank(DataTank):
+    pass
+
+
+class ProtectedModelTank(ModelTank, ProtectedDataTank):
+    pass
+
 
 class Screen(Component):
     """ A screen component for viewing the state of a component """
