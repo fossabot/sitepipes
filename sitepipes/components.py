@@ -1,6 +1,7 @@
 from sitepipes.exceptions import ProtectedDatasetError
 from sitepipes.logger import logger
 
+
 class Assembly:
     """ A collection of Component objects """
 
@@ -20,37 +21,34 @@ class MetaComponent(type):
         raise AttributeError(err_msg)
 
     def __setattr__(self, key, value):
+        pass
 
 
 class Component(metaclass=MetaComponent):
+    """ A general purpose parent class for all pipeline components """
 
     def pump_data(self):
         pass
 
 
 class Intake(Component):
-    """
-    An intake component for loading data. Can only connect to a ProtectedTank
-    instance.
-
-
-    """
+    """ A component for loading data into a destination """
 
     def __init__(self):
         pass
 
 
 class Connector(Intake):
-    """ Connects to an outside component"""
+    """ A component for connecting to an external environment """
 
 
 class DatabaseConnector(Connector):
-    """ Connects to a Database """
+    """ A component for connecting to a database """
 
 
 class Pipe(Component):
     """
-    A pipe component for moving data from Point A to Point B
+    A component for moving data from Point A to Point B
 
     :param point_a: str - Path for the data source
     :param point_b: str - Path for the data destination
@@ -66,8 +64,8 @@ class Pipe(Component):
 
 class Fitting(Component):
     """
-    A fitting component for connecting two or more pipes. Will randomly split
-    data flowing out into "pipes_out" pieces
+    A component for connecting two or more pipes into one or more flows. Will
+    randomly split data flowing out into "pipes_out" pieces
 
     :param pipes_in: int - The number of pipes coming in
     :param pipes_out: int - The number of pipes coming out
@@ -79,19 +77,28 @@ class Fitting(Component):
 
 
 class Valve(Component):
-    """ A valve component for controlling the flow of data """
+    """ A component for controlling the flow of data """
 
 
 class Queue(Valve):
-    """ A queue component for queueing a data flow"""
+    """ A component for queueing a data flow"""
 
 
 class Filter(Component):
-    """ A filter component for removing data from the pipeline """
+    """ A component for removing data from the pipeline """
+
+
+class Reservoir(Component):
+    """ A component for storing data on disk (long-term) """
 
 
 class Tank(Component):
-    """ A tank component for storing data at a location """
+    """
+    A component for storing data in-memory (short-term)
+
+    The contents of each tank are cleared when memory loses power. DO NOT store
+    any data that cannot be lost here
+    """
 
     def __init__(self):
         pass
@@ -113,7 +120,7 @@ class Tank(Component):
 
 class ProtectedTank(Tank):
     """
-    A protected tank component for data that cannot leave the tank
+    A tank with data that cannot leave the tank
 
     :param protected_names: list - The names of variables that cannot be sent
     """
@@ -137,40 +144,44 @@ class ProtectedTank(Tank):
             raise ProtectedDatasetError
 
 class DataTank(Tank):
+    """ A type of tank used to store Dataset instances in short-term memory """
     pass
 
 
 class ProtectedDataTank(DataTank, ProtectedTank):
+    """ A type of tank with Dataset instances that cannot leave the tank """
     pass
 
 
 class ModelTank(DataTank):
+    """ A type of tank used to store Model instances in-memory """
     pass
 
 
 class ProtectedModelTank(ModelTank, ProtectedDataTank):
+    """ A type of tank with Model instances that cannot leave the tank """
     pass
 
 
 class Screen(Component):
-    """ A screen component for viewing the state of a component """
+    """ A component for viewing the state of another component """
 
 
 class Hose(Component):
-    """ A hose component for portable and flexible data moving """
+    """ A component for portable and flexible data moving """
 
 
 class Processor(Component):
-    """ A processor component for running computations on data """
+    """ A component for running computations on data """
 
 
 class Controller(Component):
-    """ A controller component for controlling a collection of components """
+    """ A component for controlling a collection of components """
 
 
 class MainController(Controller):
     """
-    A controller component for controlling a federated network """
+    A component for controlling a federated network """
 
     def add_host(self, host):
         self.hosts.append(host)
