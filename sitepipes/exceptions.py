@@ -46,7 +46,7 @@ class ProtectedDatasetError(AppException):
     def __init__(self, dataset_name=None, dataset_id=None, message=None):
         super().__init__(message)
 
-        self.internal_err_msg = f'Dataset {dataset_name | dataset_id |  } cannot be sent!'
+        self.internal_err_msg = f'Dataset {dataset_name} cannot be sent!'
 
 
 if __name__ == '__main__':
