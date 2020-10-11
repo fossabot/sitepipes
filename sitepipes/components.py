@@ -1,6 +1,8 @@
 from sitepipes.exceptions import ProtectedDatasetError
 from sitepipes.logger import logger
 
+from abc import abstractmethod
+
 
 class Assembly:
     """ A collection of Component objects """
@@ -25,20 +27,50 @@ class MetaComponent(type):
 
 
 class Component(metaclass=MetaComponent):
-    """ A general purpose parent class for all pipeline components """
+    """
+    A general purpose parent class for all pipeline components
 
-    def pump_data(self):
-        pass
+    :param inlets: list - Objects that send data to the component
+    :param outlets: list - Objects that receive data from the component
+    """
+
+    inlets = []
+    outlets = []
+
+    def __init__(self, inlets=None, outlets=None):
+        if inlets is not None:
+            self.inlets = inlets
+        if outlets is not None:
+            self.outlets = outlets
+
+    def __call__(self):
+
+        return self.flow()
+
+    def push_outlets(self, comp, outlets=None):
+        """
+        Pushes data to all outlets
+
+        :param comp: CompositeDataset - With one or more datasets
+        :param outlets:
+        :return:
+        """
+        if outlets is None:
+            outlets = self.outlets
+
+        if len(outlets) < 1:
+            raise ValueError(f'"{outlets}" must be greater than length 1,'
+                             f'found length = {len(outlets)}')
+
+        for outlet in outlets:
+            comp.send(outlet)
 
 
-class Intake(Component):
-    """ A component for loading data into a destination """
-
-    def __init__(self):
-        pass
+class Fluid(metaclass=MetaComponent):
+    """ A parent class for all data that flows between components """
 
 
-class Connector(Intake):
+class Connector():
     """ A component for connecting to an external environment """
 
 
@@ -212,3 +244,7 @@ class Host(Component):
 
     def remove_model(self):
         pass
+
+
+class TrainingPlan:
+    pass
