@@ -26,9 +26,26 @@ class MetaComponent(type):
         pass
 
 
+class MetaDataset(type):
+    """ A type for datasets """
+
+    def __new__(mcs, name, bases, class_dict):
+        cls = super().__new__(mcs, name, bases, class_dict)
+        cls = logger(cls)
+        return cls
+
+    def __getattr__(self, item):
+        err_msg = f'{type(self).__name__} has no attribute "{item}"...'
+        print(err_msg)
+        raise AttributeError(err_msg)
+
+    def __setattr__(self, key, value):
+        pass
+
+
 class Component(metaclass=MetaComponent):
     """
-    A general purpose parent class for all pipeline components
+    Performs an operation on either a Dataset or Model
 
     :param inlets: list - Objects that send data to the component
     :param outlets: list - Objects that receive data from the component
@@ -66,16 +83,22 @@ class Component(metaclass=MetaComponent):
             comp.send(outlet)
 
 
-class Fluid(metaclass=MetaComponent):
+class Dataset(metaclass=MetaDataset):
     """ A parent class for all data that flows between components """
 
 
-class Connector():
+class Connector:
     """ A component for connecting to an external environment """
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class DatabaseConnector(Connector):
     """ A component for connecting to a database """
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class Pipe(Component):
@@ -86,7 +109,8 @@ class Pipe(Component):
     :param point_b: str - Path for the data destination
     """
 
-    def __init__(self, point_a, point_b):
+    def __init__(self, point_a, point_b, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
         self.point_a = point_a
         self.point_b = point_b
 
@@ -103,7 +127,8 @@ class Fitting(Component):
     :param pipes_out: int - The number of pipes coming out
     """
 
-    def __init__(self, pipes_in, pipes_out=1):
+    def __init__(self, pipes_in, pipes_out=1, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
         self.pipes_in = pipes_in
         self.pipes_out = pipes_out
 
@@ -111,17 +136,29 @@ class Fitting(Component):
 class Valve(Component):
     """ A component for controlling the flow of data """
 
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
+
 
 class Queue(Valve):
     """ A component for queueing a data flow"""
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class Filter(Component):
     """ A component for removing data from the pipeline """
 
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
+
 
 class Reservoir(Component):
     """ A component for storing data on disk (long-term) """
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class Tank(Component):
@@ -132,10 +169,10 @@ class Tank(Component):
     any data that cannot be lost here
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
-    def __call__(self, model, instructions):
+    def __call__(self):
         pass
 
     def pump_data(self, dataset_id, location):
@@ -154,14 +191,14 @@ class ProtectedTank(Tank):
     """
     A tank with data that cannot leave the tank
 
-    :param protected_names: list - The names of variables that cannot be sent
+    :param protected_ids: list - Datasets that cannot be sent
     """
 
     def __init__(self, protected_ids):
-        super.__init__()
+        super().__init__()
         self.protected_ids = protected_ids
 
-    def __call__(self, model, instructions):
+    def __call__(self):
         pass
 
     def pump_data(self, dataset_id, location):
@@ -175,51 +212,75 @@ class ProtectedTank(Tank):
         if self.dataset_id in self.protected_ids:
             raise ProtectedDatasetError
 
+
 class DataTank(Tank):
     """ A type of tank used to store Dataset instances in short-term memory """
-    pass
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class ProtectedDataTank(DataTank, ProtectedTank):
     """ A type of tank with Dataset instances that cannot leave the tank """
-    pass
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class ModelTank(DataTank):
     """ A type of tank used to store Model instances in-memory """
-    pass
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class ProtectedModelTank(ModelTank, ProtectedDataTank):
     """ A type of tank with Model instances that cannot leave the tank """
-    pass
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class Screen(Component):
     """ A component for viewing the state of another component """
 
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
+
 
 class Hose(Component):
     """ A component for portable and flexible data moving """
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class Processor(Component):
     """ A component for running computations on data """
 
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
+
 
 class Controller(Component):
     """ A component for controlling a collection of components """
+
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
 
 
 class MainController(Controller):
     """
     A component for controlling a federated network """
 
+    def __init__(self, inlets=None, outlets=None):
+        super().__init__(inlets, outlets)
+
     def add_host(self, host):
         self.hosts.append(host)
 
 
-class Host(Component):
+class Host:
     """
     A machine with zero or more datasets and/or models
 
