@@ -14,3 +14,14 @@ class JobStatus(Enum):
         member.phrase = member_phrase
 
         return member
+
+
+class Pump:
+    """ A pump component for  """
+
+
+class Assembly:
+    """ A collection of Component objects """
+
+
+

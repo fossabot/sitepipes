@@ -1,3 +1,5 @@
+from sitepipes import config
+
 from types import MethodType
 from functools import wraps
 
@@ -5,27 +7,33 @@ import logging
 import inspect
 
 
-def func_logger(obj):
+def logger(obj):
+    """ Automatically detects whether a function or class  """
+
+
+def func_logger(obj, do_log=config['do_log']):
     """ Decorator to automatically log function calls and results """
 
     @wraps(obj)
     def inner(*args, **kwargs):
         result = obj(*args, **kwargs)
 
-        print('\n\n')
-        print(f'DEBUG Called object = {obj.__qualname__}')
-        print(f'DEBUG args = {args}')
-        print(f'DEBUG kwargs = {kwargs}')
-        print(f'DEBUG result = {result}')
-        print('\n\n')
+        if do_log:
+            log.info(f'\nDEBUG Called object = {obj.__qualname__}')
+            print(f'DEBUG args = {args}')
+            print(f'DEBUG kwargs = {kwargs}')
+            print(f'DEBUG result = {result}\n')
 
         return result
 
     return inner
 
 
-def logger(cls, autolog=config['autolog'], decorate_static=True,
-           decorate_class=True, decorate_property=True, decorate_routine=True):
+def class_logger(cls, autolog=config['autolog'],
+                 decorate_static=config['decorate_static'],
+                 decorate_class=config['decorate_class'],
+                 decorate_property=config['decorate_property'],
+                 decorate_routine=config['decorate_routine']):
     """
     A class decorator for automatic logging of various methods
 

@@ -1,9 +1,5 @@
-from sitepipes.meta import MetaComponent, MetaDataset
-from sitepipes.exceptions import ProtectedDatasetError
-
-
-class Assembly:
-    """ A collection of Component objects """
+from sitepipes.components.meta import MetaComponent
+from sitepipes.util.exceptions import ProtectedDatasetError
 
 
 class Component(metaclass=MetaComponent):
@@ -17,11 +13,11 @@ class Component(metaclass=MetaComponent):
     inlets = []
     outlets = []
 
-    def __init__(self, inlets=None, outlets=None):
-        if inlets is not None:
-            self.inlets = inlets
-        if outlets is not None:
-            self.outlets = outlets
+    def __init__(self, host=None, port=None, inlets=None, outlets=None):
+        self.host = host
+        self.port = port
+        self.inlets = inlets
+        self.outlets = outlets
 
     def __call__(self):
 
@@ -44,10 +40,6 @@ class Component(metaclass=MetaComponent):
 
         for outlet in outlets:
             comp.send(outlet)
-
-
-class Dataset(metaclass=MetaDataset):
-    """ A parent class for all data that flows between components """
 
 
 class Connector:
@@ -243,31 +235,7 @@ class MainController(Controller):
         self.hosts.append(host)
 
 
-class Host:
-    """
-    A machine with zero or more datasets and/or models
 
-    :param ip_address: str - The IP address of the host machine with data / models
-    :param port: int - The port for inbound communication
-    """
-
-    def __init__(self, ip_address, port):
-        self.ip_address = ip_address
-        self.port = port
-        self.datasets = []
-        self.models = []
-
-    def add_dataset(self):
-        pass
-
-    def remove_dataset(self):
-        pass
-
-    def add_model(self):
-        pass
-
-    def remove_model(self):
-        pass
 
 
 class TrainingPlan:
