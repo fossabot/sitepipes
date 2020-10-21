@@ -40,3 +40,11 @@ class ServerSite(Site):
     def __init__(self, host=None, port=None):
         self.host = host
         self.port = port
+
+
+class iOSSite(MobileSite):
+    pass
+
+
+class AndroidSite(MobileSite):
+    pass
