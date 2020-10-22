@@ -1,1 +1,6 @@
 autolog: True
+
+MONGODB_SETTING:
+    db: '',
+    host: 'localhost'
+    port: 27017

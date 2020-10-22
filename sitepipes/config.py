@@ -74,16 +74,7 @@ class AppConfig:
     STATIC_URL_PATH = ''
     TEMPLATES_FOLDER = 'templates'
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}:{}/{}'.format(
-        os.environ.get('DB_USERNAME', config['db']['user']),
-        os.environ.get('DB_PASSWORD', 'password'),
-        os.environ.get('DB_HOST', config['db']['host']),
-        os.environ.get('DB_PORT', config['db']['port']),
-        os.environ.get('DB_NAME', config['db']['name'])
-    )
-
-    SQLALCHEMY_ECHO = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MONGODB_URI = 'mongodb://localhost:27017/myDatabase'
 
     SWAGGER = Swagger.DEFAULT_CONFIG
     SWAGGER['specs_route'] = '/api/docs'

@@ -49,6 +49,14 @@ class ProtectedDatasetError(AppException):
         self.internal_err_msg = f'Dataset {dataset_name} cannot be sent!'
 
 
+class ModelNotFoundError(AppException):
+    """ An exception for a forbidden action on a protected component """
+
+    def __init__(self, message=None, model_name=None, model_id=None):
+        super().__init__(message)
+        self.internal_err_msg = f'Model {model_name} {model_id} could not be found!'
+
+
 if __name__ == '__main__':
 
     raise ProtectedDatasetError('Dataset cannot be sent!')
