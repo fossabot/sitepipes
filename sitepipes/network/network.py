@@ -1,4 +1,4 @@
-from sitepipes.components.site import Site
+from sitepipes.network.site import Site
 
 
 class NetworkController(Site):

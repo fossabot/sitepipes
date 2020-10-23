@@ -19,7 +19,7 @@ swagger = Swagger()
 
 
 def create_app():
-    """Initialize the core application."""
+    """ Initialize the core application """
     app = Flask(__name__, instance_relative_config=False, static_url_path='')
 
     app.config.from_object('sitepipes.config.AppConfig')
@@ -37,3 +37,12 @@ def create_app():
         app.register_blueprint(models.models)
 
     return app
+
+
+def create_site():
+    """ Initialize the core site for an autodetected OS """
+
+    # MUST import libraries here to avoid circular dependencies
+    from sitepipes.network.site import Site
+    site = Site()
+    return site

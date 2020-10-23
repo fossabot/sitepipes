@@ -1,7 +1,7 @@
-from sitepipes.components.component import Component
+from sitepipes.util.helper import remove_id
 
 
-class Site(Component):
+class Site:
     """
     A machine with zero or more datasets and/or models
 
@@ -10,23 +10,30 @@ class Site(Component):
     """
 
     def __init__(self, host=None, port=None):
-        super().__init__(host, port)
+        super().__init__()
         self.host = host
         self.port = port
         self.datasets = []
         self.models = []
+        self.workers = []
 
     def add_dataset(self, dataset):
         self.datasets.append(dataset)
 
-    def remove_dataset(self, dataset):
-        self.datasets = [d for d in self.datasets if d != dataset]
+    def del_dataset(self, dataset):
+        self.datasets = remove_id(self.datasets, dataset.id)
 
-    def add_model(self):
-        pass
+    def add_model(self, model):
+        self.models.append(model)
 
-    def remove_model(self, model):
-        self.models = [m for m in self.models if m.name != model.name]
+    def del_model(self, model):
+        self.models = remove_id(self.models, model.id)
+
+    def add_worker(self, worker):
+        self.workers.append(worker)
+
+    def del_worker(self, worker):
+        self.workers = remove_id(self.workers, worker.id)
 
 
 class MobileSite(Site):
@@ -38,13 +45,14 @@ class MobileSite(Site):
 
 class ServerSite(Site):
     def __init__(self, host=None, port=None):
+        super().__init__()
         self.host = host
         self.port = port
 
 
-class iOSSite(MobileSite):
+class SwiftSite(MobileSite):
     pass
 
 
-class AndroidSite(MobileSite):
+class KotlinSite(MobileSite):
     pass
