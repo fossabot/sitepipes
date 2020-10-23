@@ -1,6 +1,6 @@
-from sitepipes.models.optimizers import Optimizer
-
 from abc import abstractmethod
+
+from sitepipes.models.optimizers import Optimizer
 
 
 class PTOptimizer(Optimizer):

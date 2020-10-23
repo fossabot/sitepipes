@@ -1,12 +1,11 @@
-from sitepipes.config import init_config, init_log
-
+from flasgger import Swagger
 from flask import Flask
 from flask_cors import CORS
-from flask_pymongo import PyMongo
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flasgger import Swagger
+from flask_pymongo import PyMongo
 
+from sitepipes.config import init_config, init_log
 
 config = init_config()
 log = init_log('log')

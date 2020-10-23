@@ -4,3 +4,5 @@ flask_pymongo
 flask_login
 flask_migrate
 flasgger
+pyyaml
+pydotenv

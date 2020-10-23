@@ -1,8 +1,7 @@
-from sitepipes import db
-from sitepipes.util.exceptions import ModelNotFoundError
-
 from flask import Blueprint, request
 
+from sitepipes import db
+from sitepipes.util.exceptions import ModelNotFoundError
 
 models = Blueprint('models', __name__)
 

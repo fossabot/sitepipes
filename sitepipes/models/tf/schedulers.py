@@ -1,6 +1,6 @@
-from sitepipes.models.schedulers import Scheduler
-
 from abc import abstractmethod
+
+from sitepipes.models.schedulers import Scheduler
 
 
 class TFScheduler(Scheduler):

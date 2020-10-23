@@ -1,12 +1,11 @@
+import io
+import logging
+import os
+import sys
+
+import yaml
 from dotenv import load_dotenv
 from flasgger import Swagger
-
-import logging
-import yaml
-import io
-import sys
-import os
-
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 

@@ -1,10 +1,9 @@
-from sitepipes import config
-
-from types import MethodType
-from functools import wraps
-
-import logging
 import inspect
+import logging
+from functools import wraps
+from types import MethodType
+
+from sitepipes import config
 
 
 def logger(obj):

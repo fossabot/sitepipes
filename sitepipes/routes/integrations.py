@@ -1,7 +1,6 @@
-from sitepipes.database.integrations import Device, Provider
-
 from flask import Blueprint, request
 
+from sitepipes.database.integrations import Device, Provider
 
 integrations = Blueprint('integrations', __name__)
 
