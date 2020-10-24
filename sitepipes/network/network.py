@@ -1,4 +1,5 @@
 from sitepipes.network.site import Site
+from sitepipes.util.helper import remove_id
 
 
 class NetworkController(Site):
@@ -14,5 +15,5 @@ class NetworkController(Site):
         self.sites.append(site)
 
     def remove_site(self, site):
-        self.sites = [s for s in self.sites if s.name != site.name]
+        self.sites = remove_id(self.sites, site.id)
 
