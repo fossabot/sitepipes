@@ -15,4 +15,3 @@ def remove_id(iterable, obj_id):
 def gen_id():
     """ Generates a unique ID """
     return uuid.uuid4()
-xw
