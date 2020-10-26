@@ -12,7 +12,6 @@ class AppException(Exception):
     user_err_msg = 'We are sorry! Something happened on our end.'
 
     def __init__(self, *args, user_err_msg=None):
-        print('App init called...')
         if args:
             self.internal_err_msg = args[0]
             super().__init__(*args)
