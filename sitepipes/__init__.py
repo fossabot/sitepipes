@@ -42,6 +42,6 @@ def create_site():
     """ Initialize the core site for an autodetected OS """
 
     # MUST import libraries here to avoid circular dependencies
-    from sitepipes.network.site import Site
+    from sitepipes.network.abstract import Site
     site = Site()
     return site

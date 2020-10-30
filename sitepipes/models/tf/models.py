@@ -1,4 +1,4 @@
-from sitepipes.models.model import Model
+from sitepipes.models.abstract import Model
 
 
 class TFModel(Model):

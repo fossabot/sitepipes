@@ -1,4 +1,4 @@
-from sitepipes.network.site import Site
+from sitepipes.network.abstract import Site
 from sitepipes.util.helper import remove_id
 
 
