@@ -1,3 +1,4 @@
+![Main build](https://github.com/MedleyLabs/sitepipes/workflows/Main%20build/badge.svg)
 [![codecov](https://codecov.io/gh/MedleyLabs/sitepipes/branch/main/graph/badge.svg?token=WQYN4LCJ78)](undefined)
 
 # sitepipes
