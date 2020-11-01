@@ -6,3 +6,4 @@ flask_migrate
 flasgger
 pyyaml
 pydotenv
+sitepipes
