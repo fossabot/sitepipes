@@ -99,12 +99,3 @@ if config['allow_print']:
 else:
     blog.warning('Suppressing print statements.')
     sys.stdout = io.StringIO()
-
-home_dir_path = os.environ.get('USERPROFILE', '~')
-config['lumena']['home_dir_path'] = home_dir_path
-blog.info(f'Set home_dir_path = {home_dir_path}...')
-
-paths = config['lumena']
-
-for name, path in paths.items():
-    config['lumena'][name] = os.path.join(home_dir_path, path)
