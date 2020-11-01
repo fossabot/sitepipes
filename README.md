@@ -1,5 +1,6 @@
 ![Main build](https://github.com/MedleyLabs/sitepipes/workflows/Main%20build/badge.svg)
 [![codecov](https://codecov.io/gh/MedleyLabs/sitepipes/branch/main/graph/badge.svg?token=WQYN4LCJ78)](undefined)
+[![PyPI version](https://badge.fury.io/py/sitepipes.svg)](https://badge.fury.io/py/sitepipes)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # sitepipes
