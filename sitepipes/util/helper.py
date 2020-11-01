@@ -15,7 +15,7 @@ def remove_id(iterable, obj_id):
 
 def gen_id():
     """ Generates a unique ID """
-    return uuid.uuid4()
+    return int(uuid.uuid4())
 
 
 def obj_to_module_name(obj):
