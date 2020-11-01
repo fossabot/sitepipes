@@ -18,7 +18,7 @@ jobs:
     - name: Building documentation
       run: |
         pip install sphinx Pallets-Sphinx-Themes
-        sphinx-apidoc --module-first -o docs/autodoc src/stenotype
+        sphinx-apidoc --module-first -o docs/autodoc sitepipes
         sphinx-build docs public -b dirhtml
     - name: Commit documentation changes
       run: |
