@@ -15,10 +15,12 @@ jobs:
       uses: actions/setup-python@master
       with:
         python-version: 3.7
-    - name: Generate Sphinx documentation
-      uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: 'docs/'
+    - name: Building documentation
+      run: |
+        pip install dist/*.whl
+        pip install sphinx Pallets-Sphinx-Themes
+        sphinx-apidoc --module-first -o docs/autodoc src/stenotype
+        sphinx-build docs public -b dirhtml
     - name: Commit documentation changes
       run: |
         git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
