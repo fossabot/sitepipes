@@ -5,10 +5,10 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_pymongo import PyMongo
 
-from sitepipes.config import init_config, init_log
+from sitepipes.config import init_config, init_logger
 
 config = init_config()
-log = init_log('log')
+log = init_logger('log')
 
 cors = CORS()
 db = PyMongo()
