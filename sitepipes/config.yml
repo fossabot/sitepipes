@@ -1,3 +1,11 @@
+# Flask configuration settings
+app:
+  host: 127.0.0.1
+  port: 5000
+  debug: False         # Ensure to set to False BEFORE deploying to production
+  testing: False
+  threaded: False      # Use parallel threads
+
 autolog: True
 
 seed: 23
