@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/MedleyLabs/sitepipes/branch/main/graph/badge.svg?token=WQYN4LCJ78)](undefined)
+
 # sitepipes
 
 A framework for federated data networks with web components
