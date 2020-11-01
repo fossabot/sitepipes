@@ -7,6 +7,7 @@ import yaml
 from dotenv import load_dotenv
 from flasgger import Swagger
 
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 
@@ -23,7 +24,10 @@ def init_config(dir_name=None, filename='config.yml'):
     return config
 
 
-def init_log(name, log_level='DEBUG', std_level='INFO'):
+config = init_config()
+
+
+def init_logger(name, log_level='DEBUG', std_level='INFO'):
     """
     Creates a logger that saves to log file and writes to the terminal
 
@@ -104,5 +108,3 @@ paths = config['lumena']
 
 for name, path in paths.items():
     config['lumena'][name] = os.path.join(home_dir_path, path)
-
-log = build_log('log')
